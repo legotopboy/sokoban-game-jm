@@ -13,11 +13,13 @@ public class MapManager {
      */
     public void init() throws IOException {
 
-
         String stage = "Stage 1\n#####\n#OoP#\n#####\n=====\n" +
                 "Stage 2\n  #######  \n###  O  ###\n#    o    #\n# Oo P oO #\n###  o  ###\n #   O  #  \n ########  \n===";
 
         inputData(stage);
+        for(int k=0; k<mapList.size(); k++) {
+            printSokoban(mapList.get(k));
+        }
     }
 
     /*
@@ -36,7 +38,6 @@ public class MapManager {
         String str="";
         while((str = br.readLine())!=null){
             if(str.indexOf("Stage")>-1 ){
-
                 scanHeight = 0; //초기화
 
                 br.mark(100);
@@ -51,13 +52,11 @@ public class MapManager {
                 {
                     Arrays.fill(tmpMap[i], 9);
                 }
-
             } else if(str.indexOf("=")>-1 || str==null){
 
                 Map map = new Map(stageNum, tmpMap);
                 mapList.add(map);
                 if(str==null) break;
-
             } else {
                 scanHeight++;
                 for(int j=1; j<width; j++){
@@ -83,17 +82,38 @@ public class MapManager {
                 size[1] = width;
                 return size;
             }
-
             if(str.indexOf("Stage")==-1 && str.indexOf("=")==-1){
                 height++;
                 width = Math.max(width, str.length());
             }
-
         }
-
         size[0] = height;
         size[1] = width;
         return size;
+
+    }
+
+    /*
+    맵을 입력받아서 콘솔에 char형으로 보이게 출력합니다.
+     */
+    public void printSokoban(Map map){
+        System.out.println();
+        System.out.println("Stage "+ map.getStageNum());
+        System.out.println();
+        for(int i=1; i<map.getHeight(); i++){
+            for(int j=1; j<map.getWidth(); j++){
+                System.out.printf("%c", itoc(map.getMap()[i][j]));
+            }
+            System.out.println();
+        }
+        System.out.println();
+        System.out.println("가로크기 : "+ (map.getWidth()-1));
+        System.out.println("세로크기 : "+ (map.getHeight()-1));
+        System.out.println("구멍의 수 : "+ map.getHallNum());
+        System.out.println("공의 수 : "+ map.getBallNum());
+        System.out.println("플레이어 위치 ("+ map.getPy()+ ", "+ map.getPx()+ ")");
+
+
 
     }
 
@@ -125,6 +145,42 @@ public class MapManager {
             case ' ':
                 ret = 9;
                 break;
+            default:
+                throw new IllegalArgumentException("잘못된 입력입니다");
+
+        }
+
+        return ret;
+    }
+
+    private int itoc(int i){
+        char ret='0';
+        switch(i){
+            case 0:
+                ret = '#';
+                break;
+            case 1:
+                ret = 'O';
+                break;
+            case 2:
+                ret = 'o';
+                break;
+            case 3:
+                ret = 'P';
+                break;
+            case 4:
+                ret = '=';
+                break;
+            case 5:
+                ret = '0';
+                break;
+            case 6:
+                ret = 'Q';
+                break;
+            case 9:
+                ret = ' ';
+                break;
+
             default:
                 throw new IllegalArgumentException("잘못된 입력입니다");
 
