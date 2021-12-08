@@ -3,6 +3,7 @@ public class Map {
     private int stageNum;
     private int[][] map ;
     private int playerY, playerX;
+    private int turnCnt = 0;
 
     public Map(int stageNum) {
         this.stageNum = stageNum;
@@ -67,6 +68,16 @@ public class Map {
         return playerX;
     }
 
+    public void movePy(int dy){
+        this.playerY += dy;
+        return;
+    }
+
+    public void movePx(int dx){
+        this.playerX += dx;
+        return;
+    }
+
     public void scanPlayer(){
         for(int i=0; i<this.getHeight(); i++)
             for(int j=0; j<this.getWidth(); j++)
@@ -77,6 +88,14 @@ public class Map {
                     this.setPlayerX(j);
                 }
             }
+    }
+
+    public int getTurnCnt() {
+        return turnCnt;
+    }
+    public void increTurnCnt(){
+        this.turnCnt++;
+        return ;
     }
 
 }

@@ -19,6 +19,7 @@ public class MapManager {
         inputData(stage);
         for(int k=0; k<mapList.size(); k++) {
             printSokoban(mapList.get(k));
+            printMapInfo(mapList.get(k));
         }
     }
 
@@ -98,23 +99,28 @@ public class MapManager {
      */
     public void printSokoban(Map map){
         System.out.println();
-        System.out.println("Stage "+ map.getStageNum());
-        System.out.println();
+
         for(int i=1; i<map.getHeight(); i++){
             for(int j=1; j<map.getWidth(); j++){
                 System.out.printf("%c", itoc(map.getMap()[i][j]));
             }
             System.out.println();
         }
+
+    }
+
+    public void printMapInfo(Map map){
         System.out.println();
         System.out.println("가로크기 : "+ (map.getWidth()-1));
         System.out.println("세로크기 : "+ (map.getHeight()-1));
         System.out.println("구멍의 수 : "+ map.getHallNum());
         System.out.println("공의 수 : "+ map.getBallNum());
         System.out.println("플레이어 위치 ("+ map.getPy()+ ", "+ map.getPx()+ ")");
+    }
 
+    public Map loadMap(int stageNum) throws IndexOutOfBoundsException{
 
-
+        return mapList.get(stageNum);
     }
 
     /*
